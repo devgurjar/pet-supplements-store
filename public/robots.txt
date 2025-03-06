@@ -1,3 +1,17 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Allow: /products/
+Allow: /categories/
+Allow: /blog/
+
+# Block private or duplicate pages
+Disallow: /login
+Disallow: /cart
+Disallow: /account
+Disallow: /checkout
+Disallow: /order-confirmation
+Disallow: /*?sort=
+Disallow: /*?filter=
+
+Sitemap: https://ivetstore.com/sitemap.xml

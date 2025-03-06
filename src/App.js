@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header/Header';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Cart from './components/Cart/Cart';
-import Login from './components/Auth/Login';
-import Account from './components/Account/Account';
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
-import Register from './components/Auth/Register';
+
+// Lazy load components
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const Cart = lazy(() => import('./components/Cart/Cart'));
+const Login = lazy(() => import('./components/Auth/Login'));
+const Account = lazy(() => import('./components/Account/Account'));
+const Register = lazy(() => import('./components/Auth/Register'));
 
 const theme = createTheme({
   palette: {
@@ -72,39 +76,51 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <div className="App">
-              <Header />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                  path="/account"
-                  element={
-                    <ProtectedRoute>
-                      <Account />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/cart"
-                  element={
-                    <ProtectedRoute>
-                      <Cart />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </div>
-          </Router>
-        </CartProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <CartProvider>
+            <Router basename="/">
+              <div className="App">
+                <Header />
+                <main>
+                  <Breadcrumbs />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/products" element={<Products />} />
+                      <Route path="/products/:category" element={<Products />} />
+                      <Route path="/products/:category/:productId" element={<Product />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route
+                        path="/account"
+                        element={
+                          <ProtectedRoute>
+                            <Account />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/cart"
+                        element={
+                          <ProtectedRoute>
+                            <Cart />
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Routes>
+                  </Suspense>
+                </main>
+                <footer>
+                  {/* Add footer content */}
+                </footer>
+              </div>
+            </Router>
+          </CartProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
