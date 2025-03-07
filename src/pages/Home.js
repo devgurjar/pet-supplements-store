@@ -87,16 +87,36 @@ const organizationSchema = {
   "@type": "Organization",
   "name": "iVet Store",
   "url": "https://ivetstore.com",
-  "logo": "https://ivetstore.com/logo.png",
-  "description": "Premium veterinary supplements supplier in India",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://ivetstore.com/assets/images/logo.png",
+    "width": "512",
+    "height": "512",
+    "contentUrl": "https://ivetstore.com/assets/images/logo.png",
+    "encodingFormat": "image/png",
+    "caption": "iVet Store Logo"
+  },
+  "image": [
+    "https://ivetstore.com/assets/images/logo.png",
+    "https://ivetstore.com/assets/images/og-image.jpg"
+  ],
+  "description": "iVet Store is your vet-powered, pet wellness marketplace with over 50 years of animal health experience. We provide a complete line of premium veterinary supplements and pet wellness products.",
+  "slogan": "Premium veterinary supplements supplier in India",
+  "foundingDate": "1973",
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "W-176, W Block, Shatabdipuram",
+    "addressLocality": "Gwalior",
+    "addressRegion": "MP",
+    "postalCode": "474005",
     "addressCountry": "IN"
   },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+91-XXXXXXXXXX",
-    "contactType": "customer service"
+    "telephone": "+91-9165034609",
+    "contactType": "customer service",
+    "areaServed": "IN",
+    "availableLanguage": ["English", "Hindi"]
   }
 };
 
@@ -203,6 +223,48 @@ const Home = () => {
                     </Button>
                   </Stack>
                 </Box>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+
+        {/* Welcome Message */}
+        <Box sx={{ bgcolor: 'background.paper', py: 6 }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={4} alignItems="center">
+              <Grid item xs={12} md={6}>
+                <Typography variant="h4" component="h2" gutterBottom color="primary">
+                  Welcome to IVET Store
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  IVET Store is your vet-powered, pet wellness marketplace. With over 50 years of animal health experience, 
+                  we provide a complete line of premium pet wellness products. Our commitment to quality and expertise ensures 
+                  the best care for your livestock and pets.
+                </Typography>
+                <Typography variant="h4" component="h2" gutterBottom color="primary" sx={{ mt: 4 }}>
+                  आई-वेट स्टोर में आपका स्वागत है
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  आई-वेट स्टोर आपका पशु चिकित्सा-संचालित, पशु स्वास्थ्य बाज़ार है। पशु स्वास्थ्य में 50 वर्षों के अनुभव के साथ, 
+                  हम उच्च गुणवत्ता वाले पशु स्वास्थ्य उत्पादों की एक पूर्ण श्रृंखला प्रदान करते हैं। गुणवत्ता और विशेषज्ञता के प्रति 
+                  हमारी प्रतिबद्धता आपके पशुधन और पालतू जानवरों की सर्वोत्तम देखभाल सुनिश्चित करती है।
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box
+                  component="img"
+                  src={`${process.env.PUBLIC_URL}/assets/images/about-image.jpg`}
+                  alt="Veterinary care"
+                  sx={{
+                    width: '100%',
+                    maxWidth: 500,
+                    height: 'auto',
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    mx: 'auto',
+                    display: 'block'
+                  }}
+                />
               </Grid>
             </Grid>
           </Container>
