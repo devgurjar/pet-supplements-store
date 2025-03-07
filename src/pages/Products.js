@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, Grid, Typography } from '@mui/material';
+import { Grid, Container, Typography } from '@mui/material';
 import ProductCard from '../components/ProductCard/ProductCard';
 import { products } from '../data/products';
 
 const Products = () => {
   return (
-    <Container sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ mb: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
         Our Products
       </Typography>
       <Grid container spacing={3}>

@@ -1,6 +1,6 @@
 {
   "short_name": "iVet Store",
-  "name": "iVet Store - Pet Supplements Store",
+  "name": "iVet Store - Premium Veterinary Supplements",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#1B4965",
   "background_color": "#ffffff"
 }
