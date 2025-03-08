@@ -1,10 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, Container, CircularProgress, CssBaseline } from '@mui/material';
+import { ThemeProvider, Container, CircularProgress, CssBaseline, Box } from '@mui/material';
 import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header/Header';
+import { ContentWrapper } from './components/Header/Header';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { styled } from '@mui/material/styles';
@@ -38,40 +39,33 @@ const Register = lazy(() => import('./components/Auth/Register'));
 const Product = lazy(() => import('./components/Product/Product'));
 const Media = lazy(() => retryLoadComponent(() => import('./pages/Media')));
 const ContactUs = lazy(() => retryLoadComponent(() => import('./pages/ContactUs')));
+const Blog = lazy(() => retryLoadComponent(() => import('./pages/Blog')));
+const BlogPost = lazy(() => retryLoadComponent(() => import('./components/Blog/BlogPost')));
 
 const MainContainer = styled(Container)(({ theme }) => ({
-  padding: theme.spacing(3),
-  [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(2),
-  },
-}));
-
-const LoadingContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  minHeight: '200px',
-  padding: theme.spacing(2),
+  paddingTop: theme.spacing(2),
+  paddingBottom: theme.spacing(2),
+  minHeight: '100vh',
 }));
 
 const LoadingFallback = () => (
-  <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
     <CircularProgress />
-  </Container>
+  </Box>
 );
 
 function App() {
   return (
-    <HelmetProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <HelmetProvider>
         <AuthProvider>
           <CartProvider>
             <Router>
-              <div className="App">
-                <Header />
-                <Breadcrumbs />
+              <CssBaseline />
+              <Header />
+              <ContentWrapper>
                 <MainContainer maxWidth="lg">
+                  <Breadcrumbs />
                   <Suspense fallback={<LoadingFallback />}>
                     <Routes>
                       <Route path="/" element={<Home />} />
@@ -98,18 +92,17 @@ function App() {
                       />
                       <Route path="/media" element={<Media />} />
                       <Route path="/contact" element={<ContactUs />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:slug" element={<BlogPost />} />
                     </Routes>
                   </Suspense>
                 </MainContainer>
-                <footer>
-                  {/* Add footer content */}
-                </footer>
-              </div>
+              </ContentWrapper>
             </Router>
           </CartProvider>
         </AuthProvider>
-      </ThemeProvider>
-    </HelmetProvider>
+      </HelmetProvider>
+    </ThemeProvider>
   );
 }
 

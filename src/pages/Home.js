@@ -11,7 +11,9 @@ import {
   IconButton,
   Rating,
   Stack,
-  Chip
+  Chip,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
@@ -22,6 +24,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Helmet } from 'react-helmet-async';
+import { styled } from '@mui/material/styles';
 
 const features = [
   {
@@ -120,7 +123,45 @@ const organizationSchema = {
   }
 };
 
+const BannerContainer = styled(Box)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #1B4965 30%, #62B6CB 90%)',
+  color: 'white',
+  padding: theme.spacing(8, 0),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(4, 0),
+    textAlign: 'center'
+  }
+}));
+
+const BannerContent = styled(Container)(({ theme }) => ({
+  textAlign: 'center',
+  [theme.breakpoints.up('md')]: {
+    textAlign: 'left',
+  }
+}));
+
+const BannerImage = styled('img')(({ theme }) => ({
+  maxWidth: '100%',
+  height: 'auto',
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[4],
+  objectFit: 'cover',
+  width: '100%',
+  [theme.breakpoints.down('sm')]: {
+    height: '200px',
+    width: '100%',
+    margin: '0 auto',
+    display: 'block'
+  },
+  [theme.breakpoints.up('md')]: {
+    height: '400px',
+  }
+}));
+
 const Home = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <>
       <Helmet>
@@ -128,291 +169,295 @@ const Home = () => {
           {JSON.stringify(organizationSchema)}
         </script>
       </Helmet>
-      <Box>
-        {/* Hero Banner */}
-        <Box 
-          sx={{ 
-            background: 'linear-gradient(135deg, #1B4965 0%, #62B6CB 100%)',
-            py: { xs: 6, md: 12 },
-            position: 'relative',
-          }}
-        >
-          <Container sx={{ position: 'relative', zIndex: 2 }}>
-            <Grid container alignItems="center" spacing={4}>
-              <Grid item xs={12} md={8} sx={{ mx: 'auto' }}>
-                <Box sx={{ 
-                  color: 'white', 
-                  textAlign: 'center',
-                  position: 'relative'
-                }}>
-                  <Chip 
-                    label="Special Offer" 
-                    color="secondary" 
-                    icon={<LocalOfferIcon />} 
-                    sx={{ 
-                      mb: 2,
-                      backgroundColor: 'secondary.main',
-                      '& .MuiChip-label': {
-                        fontWeight: 'bold'
-                      }
-                    }} 
-                  />
-                  <Typography 
-                    variant="h2" 
-                    sx={{ 
-                      fontWeight: 700,
-                      fontSize: { xs: '2rem', md: '3.5rem' },
-                      mb: 2,
-                      textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
-                    }}
-                  >
-                    20% Off on All Supplements
-                  </Typography>
-                  <Typography 
-                    sx={{ 
-                      mb: 4,
-                      opacity: 0.9,
-                      fontSize: { xs: '1rem', md: '1.2rem' },
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.2)'
-                    }}
-                  >
-                    Premium health products for your livestock and pets
-                  </Typography>
-                  <Stack 
-                    direction={{ xs: 'column', sm: 'row' }} 
-                    spacing={2}
-                    justifyContent="center"
-                  >
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                      component={Link}
-                      to="/products"
-                      sx={{ 
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        '&:hover': {
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 6px 20px rgba(0,0,0,0.2)'
-                        },
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      Shop Now
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="inherit"
-                      size="large"
-                      sx={{ 
-                        px: 4,
-                        py: 1.5,
-                        fontSize: '1.1rem',
-                        borderColor: 'white',
-                        borderWidth: '2px',
-                        '&:hover': {
-                          borderColor: 'white',
-                          borderWidth: '2px',
-                          backgroundColor: 'rgba(255,255,255,0.1)',
-                        },
-                      }}
-                    >
-                      View Deals
-                    </Button>
-                  </Stack>
-                </Box>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* Welcome Message */}
-        <Box sx={{ bgcolor: 'background.paper', py: 6 }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={4} alignItems="center">
-              <Grid item xs={12} md={6}>
-                <Typography variant="h4" component="h2" gutterBottom color="primary">
-                  Welcome to IVET Store
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  IVET Store is your vet-powered, pet wellness marketplace. With over 50 years of animal health experience, 
-                  we provide a complete line of premium pet wellness products. Our commitment to quality and expertise ensures 
-                  the best care for your livestock and pets.
-                </Typography>
-                <Typography variant="h4" component="h2" gutterBottom color="primary" sx={{ mt: 4 }}>
-                  आई-वेट स्टोर में आपका स्वागत है
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  आई-वेट स्टोर आपका पशु चिकित्सा-संचालित, पशु स्वास्थ्य बाज़ार है। पशु स्वास्थ्य में 50 वर्षों के अनुभव के साथ, 
-                  हम उच्च गुणवत्ता वाले पशु स्वास्थ्य उत्पादों की एक पूर्ण श्रृंखला प्रदान करते हैं। गुणवत्ता और विशेषज्ञता के प्रति 
-                  हमारी प्रतिबद्धता आपके पशुधन और पालतू जानवरों की सर्वोत्तम देखभाल सुनिश्चित करती है।
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box
-                  component="img"
-                  src={`${process.env.PUBLIC_URL}/assets/images/about-image.jpg`}
-                  alt="Veterinary care"
-                  sx={{
-                    width: '100%',
-                    maxWidth: 500,
-                    height: 'auto',
-                    borderRadius: 2,
-                    boxShadow: 3,
-                    mx: 'auto',
-                    display: 'block'
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* Trust Badges */}
-        <Container sx={{ py: 4 }}>
-          <Grid container spacing={3}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card 
-                  elevation={0}
+      <BannerContainer>
+        <BannerContent>
+          <Grid 
+            container 
+            spacing={4} 
+            alignItems="center"
+            direction={isMobile ? 'column-reverse' : 'row'}
+          >
+            <Grid item xs={12} md={6}>
+              <Typography 
+                variant={isMobile ? "h4" : "h3"} 
+                component="h1" 
+                gutterBottom
+                sx={{ 
+                  fontWeight: 'bold',
+                  mb: { xs: 2, md: 4 },
+                  mt: { xs: 3, md: 0 }
+                }}
+              >
+                Premium Veterinary Supplements for Livestock
+              </Typography>
+              <Typography 
+                variant={isMobile ? "body1" : "h6"}
+                paragraph
+                sx={{ 
+                  mb: { xs: 3, md: 4 },
+                  px: { xs: 2, md: 0 }
+                }}
+              >
+                Enhance your livestock's health with our high-quality mineral mixtures and supplements
+              </Typography>
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 2,
+                justifyContent: 'center',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center',
+                px: { xs: 3, md: 0 }
+              }}>
+                <Button 
+                  variant="contained" 
+                  color="secondary" 
+                  size={isMobile ? "large" : "large"}
+                  component={Link}
+                  to="/products"
+                  fullWidth={isMobile}
                   sx={{ 
-                    p: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: 'transparent',
+                    minWidth: { xs: '100%', sm: 'auto' },
+                    mb: { xs: 2, sm: 0 }
                   }}
                 >
-                  <IconButton 
-                    sx={{ 
-                      mr: 2,
-                      backgroundColor: 'primary.light',
-                      color: 'white',
-                    }}
-                  >
-                    {feature.icon}
-                  </IconButton>
-                  <Box>
-                    <Typography variant="h6" color="primary.main">
-                      {feature.title}
+                  View Products
+                </Button>
+                <Button 
+                  variant="outlined" 
+                  color="inherit"
+                  size={isMobile ? "large" : "large"}
+                  component={Link}
+                  to="/contact"
+                  fullWidth={isMobile}
+                  sx={{ 
+                    minWidth: { xs: '100%', sm: 'auto' }
+                  }}
+                >
+                  Contact Us
+                </Button>
+              </Box>
+            </Grid>
+            <Grid 
+              item 
+              xs={12} 
+              md={6} 
+              sx={{ 
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                mb: { xs: 2, md: 0 }
+              }}
+            >
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderRadius: theme.shape.borderRadius,
+                }}
+              >
+                <BannerImage
+                  src="/assets/images/banner-image.jpg"
+                  alt="Healthy Livestock"
+                  sx={{
+                    transform: 'scale(1.02)',
+                    transition: 'transform 0.3s ease-in-out',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    }
+                  }}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </BannerContent>
+      </BannerContainer>
+
+      {/* Welcome Message */}
+      <Box sx={{ bgcolor: 'background.paper', py: 6 }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4" component="h2" gutterBottom color="primary">
+                Welcome to IVET Store
+              </Typography>
+              <Typography variant="body1" paragraph>
+                IVET Store is your vet-powered, pet wellness marketplace. With over 50 years of animal health experience, 
+                we provide a complete line of premium pet wellness products. Our commitment to quality and expertise ensures 
+                the best care for your livestock and pets.
+              </Typography>
+              <Typography variant="h4" component="h2" gutterBottom color="primary" sx={{ mt: 4 }}>
+                आई-वेट स्टोर में आपका स्वागत है
+              </Typography>
+              <Typography variant="body1" paragraph>
+                आई-वेट स्टोर आपका पशु चिकित्सा-संचालित, पशु स्वास्थ्य बाज़ार है। पशु स्वास्थ्य में 50 वर्षों के अनुभव के साथ, 
+                हम उच्च गुणवत्ता वाले पशु स्वास्थ्य उत्पादों की एक पूर्ण श्रृंखला प्रदान करते हैं। गुणवत्ता और विशेषज्ञता के प्रति 
+                हमारी प्रतिबद्धता आपके पशुधन और पालतू जानवरों की सर्वोत्तम देखभाल सुनिश्चित करती है।
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box
+                component="img"
+                src={`${process.env.PUBLIC_URL}/assets/images/about-image.jpg`}
+                alt="Veterinary care"
+                sx={{
+                  width: '100%',
+                  maxWidth: 500,
+                  height: 'auto',
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  mx: 'auto',
+                  display: 'block'
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Trust Badges */}
+      <Container sx={{ py: 4 }}>
+        <Grid container spacing={3}>
+          {features.map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Card 
+                elevation={0}
+                sx={{ 
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  bgcolor: 'transparent',
+                }}
+              >
+                <IconButton 
+                  sx={{ 
+                    mr: 2,
+                    backgroundColor: 'primary.light',
+                    color: 'white',
+                  }}
+                >
+                  {feature.icon}
+                </IconButton>
+                <Box>
+                  <Typography variant="h6" color="primary.main">
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {feature.description}
+                  </Typography>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* Featured Products */}
+      <Box sx={{ bgcolor: 'background.paper', py: 8 }}>
+        <Container maxWidth="lg">
+          <Typography variant="h4" component="h2" gutterBottom>
+            Featured Products
+          </Typography>
+          <Grid container spacing={4}>
+            {featuredProducts.map((product) => (
+              <Grid item key={product.id} xs={12} sm={6} md={6}>
+                <Card sx={{ height: '100%' }}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={product.image}
+                    alt={product.title}
+                    sx={{ objectFit: 'contain', p: 2 }}
+                  />
+                  <CardContent>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                      {product.tag && (
+                        <Chip 
+                          label={product.tag} 
+                          color="primary" 
+                          size="small" 
+                        />
+                      )}
+                    </Stack>
+                    <Typography variant="h6" component="h3" gutterBottom>
+                      {product.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {feature.description}
-                    </Typography>
-                  </Box>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Rating value={product.rating} precision={0.5} readOnly size="small" />
+                      <Typography variant="body2" color="text.secondary">
+                        ({product.reviews})
+                      </Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
+                      <Typography variant="h6" color="primary">
+                        ₹{product.price}
+                      </Typography>
+                      {product.oldPrice && (
+                        <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                          ₹{product.oldPrice}
+                        </Typography>
+                      )}
+                    </Stack>
+                  </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Container>
+      </Box>
 
-        {/* Featured Products */}
-        <Box sx={{ bgcolor: 'background.paper', py: 8 }}>
-          <Container maxWidth="lg">
-            <Typography variant="h4" component="h2" gutterBottom>
-              Featured Products
-            </Typography>
-            <Grid container spacing={4}>
-              {featuredProducts.map((product) => (
-                <Grid item key={product.id} xs={12} sm={6} md={6}>
-                  <Card sx={{ height: '100%' }}>
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={product.image}
-                      alt={product.title}
-                      sx={{ objectFit: 'contain', p: 2 }}
-                    />
-                    <CardContent>
-                      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-                        {product.tag && (
-                          <Chip 
-                            label={product.tag} 
-                            color="primary" 
-                            size="small" 
-                          />
-                        )}
-                      </Stack>
-                      <Typography variant="h6" component="h3" gutterBottom>
-                        {product.title}
-                      </Typography>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Rating value={product.rating} precision={0.5} readOnly size="small" />
-                        <Typography variant="body2" color="text.secondary">
-                          ({product.reviews})
-                        </Typography>
-                      </Stack>
-                      <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
-                        <Typography variant="h6" color="primary">
-                          ₹{product.price}
-                        </Typography>
-                        {product.oldPrice && (
-                          <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
-                            ₹{product.oldPrice}
-                          </Typography>
-                        )}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* Newsletter Section with Enhanced Design */}
-        <Box 
-          sx={{ 
-            bgcolor: 'primary.main',
-            color: 'white',
-            py: 10,
-            background: 'linear-gradient(135deg, #1B4965 0%, #62B6CB 100%)',
-          }}
-        >
-          <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-            <VerifiedIcon sx={{ fontSize: 50, mb: 2, color: 'secondary.light' }} />
-            <Typography variant="h3" gutterBottom fontWeight="bold">
-              Join Our Community
-            </Typography>
-            <Typography sx={{ mb: 4, opacity: 0.9 }}>
-              Subscribe to receive updates, access to exclusive deals, and more.
-            </Typography>
-            <Box 
-              component="form" 
+      {/* Newsletter Section with Enhanced Design */}
+      <Box 
+        sx={{ 
+          bgcolor: 'primary.main',
+          color: 'white',
+          py: 10,
+          background: 'linear-gradient(135deg, #1B4965 0%, #62B6CB 100%)',
+        }}
+      >
+        <Container maxWidth="md" sx={{ textAlign: 'center' }}>
+          <VerifiedIcon sx={{ fontSize: 50, mb: 2, color: 'secondary.light' }} />
+          <Typography variant="h3" gutterBottom fontWeight="bold">
+            Join Our Community
+          </Typography>
+          <Typography sx={{ mb: 4, opacity: 0.9 }}>
+            Subscribe to receive updates, access to exclusive deals, and more.
+          </Typography>
+          <Box 
+            component="form" 
+            sx={{ 
+              display: 'flex', 
+              gap: 2, 
+              maxWidth: 500, 
+              mx: 'auto',
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              style={{
+                flex: 1,
+                padding: '12px 20px',
+                borderRadius: '30px',
+                border: 'none',
+                fontSize: '1rem',
+              }}
+            />
+            <Button 
+              variant="contained"
+              color="secondary"
+              size="large"
               sx={{ 
-                display: 'flex', 
-                gap: 2, 
-                maxWidth: 500, 
-                mx: 'auto',
-                flexDirection: { xs: 'column', sm: 'row' }
+                px: 4,
+                whiteSpace: 'nowrap',
               }}
             >
-              <input
-                type="email"
-                placeholder="Enter your email"
-                style={{
-                  flex: 1,
-                  padding: '12px 20px',
-                  borderRadius: '30px',
-                  border: 'none',
-                  fontSize: '1rem',
-                }}
-              />
-              <Button 
-                variant="contained"
-                color="secondary"
-                size="large"
-                sx={{ 
-                  px: 4,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Subscribe
-              </Button>
-            </Box>
-          </Container>
-        </Box>
+              Subscribe
+            </Button>
+          </Box>
+        </Container>
       </Box>
     </>
   );
