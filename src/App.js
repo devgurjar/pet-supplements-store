@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, Container, CircularProgress } from '@mui/material';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, Container, CircularProgress, CssBaseline } from '@mui/material';
 import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
@@ -10,16 +10,34 @@ import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { styled } from '@mui/material/styles';
 import theme from './theme';  // Import the theme
 
-// Lazy load components
-const Home = lazy(() => import('./pages/Home'));
-const Products = lazy(() => import('./pages/Products'));
+// Lazy load with retry mechanism
+const retryLoadComponent = (componentImport) => {
+  return new Promise((resolve, reject) => {
+    const retryImport = (retries = 0) => {
+      componentImport()
+        .then(resolve)
+        .catch((error) => {
+          if (retries < 3) {
+            setTimeout(() => retryImport(retries + 1), 1000);
+          } else {
+            reject(error);
+          }
+        });
+    };
+    retryImport();
+  });
+};
+
+// Lazy load components with retry
+const Home = lazy(() => retryLoadComponent(() => import('./pages/Home')));
+const Products = lazy(() => retryLoadComponent(() => import('./pages/Products')));
 const Cart = lazy(() => import('./components/Cart/Cart'));
 const Login = lazy(() => import('./components/Auth/Login'));
 const Account = lazy(() => import('./components/Account/Account'));
 const Register = lazy(() => import('./components/Auth/Register'));
 const Product = lazy(() => import('./components/Product/Product'));
-const Media = lazy(() => import('./pages/Media'));
-const ContactUs = lazy(() => import('./pages/ContactUs'));
+const Media = lazy(() => retryLoadComponent(() => import('./pages/Media')));
+const ContactUs = lazy(() => retryLoadComponent(() => import('./pages/ContactUs')));
 
 const MainContainer = styled(Container)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -36,22 +54,25 @@ const LoadingContainer = styled('div')(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+const LoadingFallback = () => (
+  <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+    <CircularProgress />
+  </Container>
+);
+
 function App() {
   return (
     <HelmetProvider>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <AuthProvider>
           <CartProvider>
-            <Router basename="/">
+            <Router>
               <div className="App">
                 <Header />
                 <Breadcrumbs />
                 <MainContainer maxWidth="lg">
-                  <Suspense fallback={
-                    <LoadingContainer>
-                      <CircularProgress />
-                    </LoadingContainer>
-                  }>
+                  <Suspense fallback={<LoadingFallback />}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/products" element={<Products />} />

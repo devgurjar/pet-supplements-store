@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" />
-    <link rel="icon" type="image/png" sizes="512x512" href="assets/images/logo.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/logo-192.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" sizes="512x512" href="./assets/images/logo-512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/logo-192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
     
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="assets/images/logo-192.png" />
+    <link rel="apple-touch-icon" href="./assets/images/logo-192.png" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#1B4965" />
@@ -46,11 +46,26 @@
     <meta name="revisit-after" content="7 days" />
     <meta name="author" content="iVet Store" />
 
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <title>iVet Store - Premium Veterinary Supplements | Livestock Health Products</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
   </body>
 </html>

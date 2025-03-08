@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp CNAME build/CNAME && cp build/index.html build/404.html && cp public/manifest.json build/manifest.json",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && cp CNAME build/ && cp public/404.html build/ && cp -r public/assets build/ && cp public/favicon.ico build/ && cp public/manifest.json build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -51,5 +51,5 @@
   "devDependencies": {
     "gh-pages": "^6.3.0"
   },
-  "homepage": "https://ivetstore.com"
+  "homepage": "."
 }
