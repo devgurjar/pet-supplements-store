@@ -16,6 +16,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import HomeIcon from '@mui/icons-material/Home';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import InfoIcon from '@mui/icons-material/Info';
 import Logo from '../Logo/Logo';
 import { styled } from '@mui/material/styles';
 
@@ -118,6 +119,7 @@ const Header = () => {
     { label: 'Home', path: '/', icon: <HomeIcon /> },
     { label: 'Products', path: '/products', icon: <ShoppingBasketIcon /> },
     { label: 'Media', path: '/media', icon: <PlayCircleIcon /> },
+    { label: 'About Us', path: '/about', icon: <InfoIcon /> },
     { label: 'Blog', path: '/blog', icon: <ArticleIcon /> },
     { label: 'Contact', path: '/contact', icon: <ContactPageIcon /> },
   ];
@@ -144,6 +146,9 @@ const Header = () => {
               </NavButton>
               <NavButton component={Link} to="/media" variant="text" size="small">
                 Media
+              </NavButton>
+              <NavButton component={Link} to="/about" variant="text" size="small">
+                About Us
               </NavButton>
               <NavButton component={Link} to="/contact" variant="text" size="small">
                 Contact Us

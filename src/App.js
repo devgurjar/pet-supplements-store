@@ -10,6 +10,7 @@ import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { styled } from '@mui/material/styles';
 import theme from './theme';  // Import the theme
+import AboutUs from './pages/AboutUs';
 
 // Lazy load with retry mechanism
 const retryLoadComponent = (componentImport) => {
@@ -94,6 +95,7 @@ function App() {
                       <Route path="/contact" element={<ContactUs />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:slug" element={<BlogPost />} />
+                      <Route path="/about" element={<AboutUs />} />
                     </Routes>
                   </Suspense>
                 </MainContainer>

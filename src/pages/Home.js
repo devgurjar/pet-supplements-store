@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -25,6 +25,12 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import '../styles/swiper.css';
 
 const features = [
   {
@@ -88,24 +94,15 @@ const categories = [
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "iVet Store",
+  "name": "I VET",
   "url": "https://ivetstore.com",
   "logo": {
     "@type": "ImageObject",
     "url": "https://ivetstore.com/assets/images/logo.png",
     "width": "512",
-    "height": "512",
-    "contentUrl": "https://ivetstore.com/assets/images/logo.png",
-    "encodingFormat": "image/png",
-    "caption": "iVet Store Logo"
+    "height": "512"
   },
-  "image": [
-    "https://ivetstore.com/assets/images/logo.png",
-    "https://ivetstore.com/assets/images/og-image.jpg"
-  ],
-  "description": "iVet Store is your vet-powered, pet wellness marketplace with over 50 years of animal health experience. We provide a complete line of premium veterinary supplements and pet wellness products.",
-  "slogan": "Premium veterinary supplements supplier in India",
-  "foundingDate": "1973",
+  "description": "Leading manufacturer and supplier of veterinary supplements, animal feed, and livestock healthcare products in India.",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "W-176, W Block, Shatabdipuram",
@@ -120,159 +117,132 @@ const organizationSchema = {
     "contactType": "customer service",
     "areaServed": "IN",
     "availableLanguage": ["English", "Hindi"]
-  }
+  },
+  "sameAs": [
+    "https://facebook.com/ivetstore",
+    "https://twitter.com/ivetstore",
+    "https://instagram.com/ivetstore"
+  ]
 };
 
-const BannerContainer = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(45deg, #1B4965 30%, #62B6CB 90%)',
-  color: 'white',
-  padding: theme.spacing(8, 0),
-  [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(4, 0),
-    textAlign: 'center'
-  }
-}));
-
-const BannerContent = styled(Container)(({ theme }) => ({
-  textAlign: 'center',
-  [theme.breakpoints.up('md')]: {
-    textAlign: 'left',
-  }
-}));
-
-const BannerImage = styled('img')(({ theme }) => ({
-  maxWidth: '100%',
-  height: 'auto',
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[4],
-  objectFit: 'cover',
+const SlideImage = styled('img')(({ theme }) => ({
   width: '100%',
-  [theme.breakpoints.down('sm')]: {
-    height: '200px',
+  height: '100%',
+  objectFit: 'contain',
+  display: 'block',
+  backgroundColor: '#f5f5f5',
+}));
+
+const SlideShow = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  width: '100vw',
+  height: theme.breakpoints.down('sm') ? '400px' : '600px',
+  overflow: 'hidden',
+  marginBottom: theme.spacing(4),
+  left: '50%',
+  right: '50%',
+  marginLeft: '-50vw',
+  marginRight: '-50vw',
+  '& .swiper': {
+    height: '100%',
     width: '100%',
-    margin: '0 auto',
-    display: 'block'
   },
-  [theme.breakpoints.up('md')]: {
-    height: '400px',
+  '& .swiper-slide': {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }));
 
 const Home = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [activeStep, setActiveStep] = useState(0);
+
+  const styles = {
+    '.swiper-pagination-bullet': {
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      opacity: 1,
+      '&.swiper-pagination-bullet-active': {
+        backgroundColor: theme.palette.primary.main,
+      },
+    },
+    '.swiper-button-next, .swiper-button-prev': {
+      color: theme.palette.primary.main,
+    },
+  };
+
+  const slideImages = [
+    {
+      url: `${process.env.PUBLIC_URL}/assets/images/slides/slide1.jpg`,
+      title: 'Premium Veterinary Products',
+      description: 'High-quality supplements for your livestock'
+    },
+    {
+      url: `${process.env.PUBLIC_URL}/assets/images/slides/slide2.jpg`,
+      title: 'Expert Care Solutions',
+      description: 'Professional healthcare for animals'
+    },
+    {
+      url: `${process.env.PUBLIC_URL}/assets/images/slides/slide3.jpg`,
+      title: 'Complete Animal Nutrition',
+      description: 'Balanced nutrition for optimal health'
+    },
+    {
+      url: `${process.env.PUBLIC_URL}/assets/images/slides/slide4.jpg`,
+      title: 'Happy Farmer',
+      description: 'Happy Farmer'
+    }
+  ];
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
 
   return (
     <>
       <Helmet>
+        <title>I VET - Premium Veterinary Supplements & Animal Healthcare Products</title>
+        <meta name="description" content="Leading manufacturer and supplier of veterinary supplements, animal feed, and livestock healthcare products in India. GST registered firm offering quality animal nutrition solutions." />
+        <link rel="canonical" href="https://ivetstore.com" />
         <script type="application/ld+json">
           {JSON.stringify(organizationSchema)}
         </script>
       </Helmet>
-      <BannerContainer>
-        <BannerContent>
-          <Grid 
-            container 
-            spacing={4} 
-            alignItems="center"
-            direction={isMobile ? 'column-reverse' : 'row'}
-          >
-            <Grid item xs={12} md={6}>
-              <Typography 
-                variant={isMobile ? "h4" : "h3"} 
-                component="h1" 
-                gutterBottom
-                sx={{ 
-                  fontWeight: 'bold',
-                  mb: { xs: 2, md: 4 },
-                  mt: { xs: 3, md: 0 }
-                }}
-              >
-                Premium Veterinary Supplements for Livestock
-              </Typography>
-              <Typography 
-                variant={isMobile ? "body1" : "h6"}
-                paragraph
-                sx={{ 
-                  mb: { xs: 3, md: 4 },
-                  px: { xs: 2, md: 0 }
-                }}
-              >
-                Enhance your livestock's health with our high-quality mineral mixtures and supplements
-              </Typography>
-              <Box sx={{ 
-                display: 'flex', 
-                gap: 2,
-                justifyContent: 'center',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: 'center',
-                px: { xs: 3, md: 0 }
-              }}>
-                <Button 
-                  variant="contained" 
-                  color="secondary" 
-                  size={isMobile ? "large" : "large"}
-                  component={Link}
-                  to="/products"
-                  fullWidth={isMobile}
-                  sx={{ 
-                    minWidth: { xs: '100%', sm: 'auto' },
-                    mb: { xs: 2, sm: 0 }
-                  }}
-                >
-                  View Products
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  color="inherit"
-                  size={isMobile ? "large" : "large"}
-                  component={Link}
-                  to="/contact"
-                  fullWidth={isMobile}
-                  sx={{ 
-                    minWidth: { xs: '100%', sm: 'auto' }
-                  }}
-                >
-                  Contact Us
-                </Button>
-              </Box>
-            </Grid>
-            <Grid 
-              item 
-              xs={12} 
-              md={6} 
-              sx={{ 
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                mb: { xs: 2, md: 0 }
-              }}
-            >
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: theme.shape.borderRadius,
-                }}
-              >
-                <BannerImage
-                  src="/assets/images/banner-image.jpg"
-                  alt="Healthy Livestock"
-                  sx={{
-                    transform: 'scale(1.02)',
-                    transition: 'transform 0.3s ease-in-out',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                    }
+      <SlideShow>
+        <Swiper
+          spaceBetween={0}
+          centeredSlides={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {slideImages.map((slide, index) => (
+            <SwiperSlide key={index}>
+              <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                <SlideImage
+                  src={slide.url}
+                  alt={`${slide.title} - I VET Animal Healthcare Products`}
+                  loading="lazy"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${slide.url}`);
+                    e.target.src = `${process.env.PUBLIC_URL}/assets/images/banner-image.jpg`;
                   }}
                 />
               </Box>
-            </Grid>
-          </Grid>
-        </BannerContent>
-      </BannerContainer>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </SlideShow>
 
       {/* Welcome Message */}
       <Box sx={{ bgcolor: 'background.paper', py: 6 }}>
@@ -280,20 +250,31 @@ const Home = () => {
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>
               <Typography variant="h4" component="h2" gutterBottom color="primary">
-                Welcome to IVET Store
+                Welcome to I VET
               </Typography>
               <Typography variant="body1" paragraph>
-                IVET Store is your vet-powered, pet wellness marketplace. With over 50 years of animal health experience, 
-                we provide a complete line of premium pet wellness products. Our commitment to quality and expertise ensures 
-                the best care for your livestock and pets.
+                I VET is an innovative young proprietorship firm registered under Government of India 
+                with GST REG-06 registration number – 23GSOPK8256C1ZI, and registered with Ministry 
+                of Micro Small and Medium Enterprises (UDYAM registration number: UDYAM-MOP-04-0010366).
+              </Typography>
+              <Typography variant="body1" paragraph>
+                We specialize in trading and manufacturing of animal feed, wholesale of straw, fodder 
+                and other animal feeds. Our services extend to poultry feed and animal production 
+                related activities, as well as wholesale of agricultural raw materials and live 
+                animals trade.
               </Typography>
               <Typography variant="h4" component="h2" gutterBottom color="primary" sx={{ mt: 4 }}>
-                आई-वेट स्टोर में आपका स्वागत है
+                आई वेट में आपका स्वागत है
               </Typography>
               <Typography variant="body1" paragraph>
-                आई-वेट स्टोर आपका पशु चिकित्सा-संचालित, पशु स्वास्थ्य बाज़ार है। पशु स्वास्थ्य में 50 वर्षों के अनुभव के साथ, 
-                हम उच्च गुणवत्ता वाले पशु स्वास्थ्य उत्पादों की एक पूर्ण श्रृंखला प्रदान करते हैं। गुणवत्ता और विशेषज्ञता के प्रति 
-                हमारी प्रतिबद्धता आपके पशुधन और पालतू जानवरों की सर्वोत्तम देखभाल सुनिश्चित करती है।
+                आई वेट भारत सरकार के तहत पंजीकृत एक नवीन युवा स्वामित्व फर्म है, जिसका 
+                GST REG-06 पंजीकरण संख्या – 23GSOPK8256C1ZI है, और सूक्ष्म, लघु और मध्यम उद्यम 
+                मंत्रालय में पंजीकृत है (उद्यम पंजीकरण संख्या: UDYAM-MOP-04-0010366)।
+              </Typography>
+              <Typography variant="body1" paragraph>
+                हम पशु आहार के व्यापार और निर्माण, भूसा, चारा और अन्य पशु आहार के थोक व्यापार में 
+                विशेषज्ञता रखते हैं। हमारी सेवाओं में पोल्ट्री फीड और पशु उत्पादन संबंधी गतिविधियां, 
+                साथ ही कृषि कच्चे माल और जीवित पशुओं का थोक व्यापार शामिल है।
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
