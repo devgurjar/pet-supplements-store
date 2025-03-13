@@ -22,6 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: '100%',
@@ -43,27 +44,28 @@ const ProductImage = styled(CardMedia)({
 const ProductCard = ({ product }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openComposition, setOpenComposition] = useState(false);
+  const navigate = useNavigate();
 
-  // Create image paths that work in both development and production
-  const getImagePath = (path) => {
-    return path.startsWith('http') ? path : `${process.env.PUBLIC_URL}${path}`;
+  const handleCardClick = () => {
+    if (!openDialog && !openComposition) {
+      navigate(`/products/${product.id}`);
+    }
   };
 
-  const handleImageError = (e) => {
-    e.target.src = process.env.PUBLIC_URL + '/assets/images/placeholder.png';
-  };
-
-  const handleImageClick = () => {
+  const handleImageClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setOpenDialog(true);
+  };
+
+  const handleCompositionClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpenComposition(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-  };
-
-  const handleCompositionClick = (event) => {
-    event.stopPropagation();
-    setOpenComposition(true);
   };
 
   const handleCloseComposition = () => {
@@ -96,140 +98,105 @@ const ProductCard = ({ product }) => {
           {JSON.stringify(productSchema)}
         </script>
       </Helmet>
-      <StyledCard>
-        <ProductImage
-          component="img"
-          image={getImagePath(product.image)}
-          alt={product.name}
-          title={product.name}
-          onError={handleImageError}
-          onClick={handleImageClick}
-          sx={{ cursor: 'pointer' }}
-        />
+      <StyledCard 
+        onClick={handleCardClick}
+        sx={{ 
+          cursor: 'pointer',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: 4,
+          }
+        }}
+      >
+        <Box className="product-image">
+          <ProductImage
+            component="img"
+            image={product.image}
+            alt={product.name}
+            title={product.name}
+            onClick={handleImageClick}
+            sx={{ cursor: 'zoom-in' }}
+          />
+        </Box>
         <CardContent>
           <Typography gutterBottom variant="h6" component="h2">
             {product.name}
           </Typography>
-          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
             {product.nameHindi}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" sx={{ mb: 1 }}>
+          <Typography variant="body2" color="text.secondary" paragraph>
             {product.description}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" sx={{ mb: 2 }}>
-            {product.descriptionHindi}
-          </Typography>
-          <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant="h6" color="primary">
               ₹{product.price}
             </Typography>
-            {product.composition && (
-              <Button
-                startIcon={<InfoOutlinedIcon />}
-                onClick={handleCompositionClick}
-                size="small"
-                color="primary"
-              >
-                Composition
-              </Button>
-            )}
+            <Button
+              className="composition-button"
+              size="small"
+              onClick={handleCompositionClick}
+              startIcon={<InfoOutlinedIcon />}
+            >
+              Composition
+            </Button>
           </Box>
         </CardContent>
       </StyledCard>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogContent sx={{ p: 0, position: 'relative' }}>
+      {/* Image Dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
+        <DialogTitle>
           <IconButton
+            aria-label="close"
             onClick={handleCloseDialog}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: 'white',
-              bgcolor: 'rgba(0, 0, 0, 0.5)',
-              '&:hover': {
-                bgcolor: 'rgba(0, 0, 0, 0.7)',
-              }
-            }}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
           >
             <CloseIcon />
           </IconButton>
-          <Box
-            component="img"
-            src={getImagePath(product.image)}
+        </DialogTitle>
+        <DialogContent>
+          <img
+            src={product.image}
             alt={product.name}
-            onError={handleImageError}
-            sx={{
-              width: '100%',
-              height: 'auto',
-              maxHeight: '80vh',
-              objectFit: 'contain',
-            }}
+            style={{ width: '100%', height: 'auto', maxHeight: '80vh' }}
           />
         </DialogContent>
       </Dialog>
 
-      {product.composition && (
-        <Dialog
-          open={openComposition}
-          onClose={handleCloseComposition}
-          maxWidth="md"
-          fullWidth
-        >
-          <DialogTitle sx={{ m: 0, p: 2 }}>
-            <Typography variant="h6">
-              {product.name} - {product.nameHindi}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Composition / संरचना
-            </Typography>
-            <IconButton
-              onClick={handleCloseComposition}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: 'grey.500'
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography variant="subtitle1" gutterBottom color="primary">
-              {product.composition.title} / {product.composition.titleHindi}
-            </Typography>
-            <TableContainer component={Paper} variant="outlined">
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Ingredient / सामग्री</TableCell>
-                    <TableCell align="right">Quantity / मात्रा</TableCell>
+      {/* Composition Dialog */}
+      <Dialog open={openComposition} onClose={handleCloseComposition}>
+        <DialogTitle>
+          Composition
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseComposition}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Component</TableCell>
+                  <TableCell align="right">Amount</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {product.composition?.ingredients.map((ingredient, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{ingredient.name}</TableCell>
+                    <TableCell align="right">{ingredient.value}</TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {product.composition.ingredients.map((ingredient, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        <Typography variant="body2">{ingredient.name}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {ingredient.nameHindi}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="right">{ingredient.value}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </DialogContent>
-        </Dialog>
-      )}
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

@@ -16,10 +16,17 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import BusinessIcon from '@mui/icons-material/Business';
 import FactoryIcon from '@mui/icons-material/Factory';
+import { Helmet } from 'react-helmet-async';
 
 const ContactUs = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Contact Us - iVet Store</title>
+        <meta name="description" content="Get in touch with iVet Store. Find our contact details, office locations and business information." />
+        <meta name="prerender-status-code" content="200" />
+        <link rel="canonical" href="https://ivetstore.com/contact" />
+      </Helmet>
       <Typography variant="h4" component="h1" gutterBottom align="center" color="primary">
         Contact Us
       </Typography>

@@ -25,11 +25,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build && cp CNAME build/ && cp public/404.html build/ && cp -r public/assets build/ && cp public/favicon.ico build/ && cp public/manifest.json build/",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && cp CNAME build/ && cp public/404.html build/ && cp -r public/assets build/ && cp public/favicon.ico build/ && cp public/manifest.json build/ && cp public/.htaccess build/ && cp public/robots.txt build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "prebuild": "node src/utils/generateSitemap.js || exit 0"
   },
   "eslintConfig": {
     "extends": [
