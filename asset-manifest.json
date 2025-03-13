@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "https://ivetstore.com/static/css/main.8ffcfdb7.css",
+    "main.js": "https://ivetstore.com/static/js/main.6f3e113c.js",
+    "static/css/738.a354bd85.chunk.css": "https://ivetstore.com/static/css/738.a354bd85.chunk.css",
+    "static/js/738.7470831c.chunk.js": "https://ivetstore.com/static/js/738.7470831c.chunk.js",
+    "static/js/268.f67b1e1f.chunk.js": "https://ivetstore.com/static/js/268.f67b1e1f.chunk.js",
+    "static/js/219.61a4316e.chunk.js": "https://ivetstore.com/static/js/219.61a4316e.chunk.js",
+    "static/js/568.6d52bc4c.chunk.js": "https://ivetstore.com/static/js/568.6d52bc4c.chunk.js",
+    "static/js/640.9c1db5ce.chunk.js": "https://ivetstore.com/static/js/640.9c1db5ce.chunk.js",
+    "static/js/364.c0f2a940.chunk.js": "https://ivetstore.com/static/js/364.c0f2a940.chunk.js",
+    "static/js/522.713c6607.chunk.js": "https://ivetstore.com/static/js/522.713c6607.chunk.js",
+    "static/js/122.6ad74598.chunk.js": "https://ivetstore.com/static/js/122.6ad74598.chunk.js",
+    "static/js/77.c191205a.chunk.js": "https://ivetstore.com/static/js/77.c191205a.chunk.js",
+    "static/js/886.ce64ebe1.chunk.js": "https://ivetstore.com/static/js/886.ce64ebe1.chunk.js",
+    "static/js/206.55284b95.chunk.js": "https://ivetstore.com/static/js/206.55284b95.chunk.js",
+    "static/js/899.b0498bfc.chunk.js": "https://ivetstore.com/static/js/899.b0498bfc.chunk.js",
+    "static/js/277.13a26e2d.chunk.js": "https://ivetstore.com/static/js/277.13a26e2d.chunk.js",
+    "static/js/957.bfd8f623.chunk.js": "https://ivetstore.com/static/js/957.bfd8f623.chunk.js",
+    "static/js/83.d12a5b3f.chunk.js": "https://ivetstore.com/static/js/83.d12a5b3f.chunk.js",
+    "index.html": "https://ivetstore.com/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.8ffcfdb7.css",
+    "static/js/main.6f3e113c.js"
+  ]
+}
