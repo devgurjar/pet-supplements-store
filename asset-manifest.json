@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "https://ivetstore.com/static/css/main.8ffcfdb7.css",
-    "main.js": "https://ivetstore.com/static/js/main.6f3e113c.js",
+    "main.js": "https://ivetstore.com/static/js/main.573f0a65.js",
     "static/css/738.a354bd85.chunk.css": "https://ivetstore.com/static/css/738.a354bd85.chunk.css",
     "static/js/738.7470831c.chunk.js": "https://ivetstore.com/static/js/738.7470831c.chunk.js",
     "static/js/268.f67b1e1f.chunk.js": "https://ivetstore.com/static/js/268.f67b1e1f.chunk.js",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.8ffcfdb7.css",
-    "static/js/main.6f3e113c.js"
+    "static/js/main.573f0a65.js"
   ]
 }
